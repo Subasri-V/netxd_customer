@@ -15,7 +15,7 @@ message customerRequest {
     int32 Balance=5;
     string CreatedAt=6;
     string UpdatedAt=7;
-    bool isActive = 8;
+    bool IsActive = 8;
 }
 
 message customerResponse {
