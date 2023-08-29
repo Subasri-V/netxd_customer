@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+option go_package="https://github.com/Subasri-V/netxd_customer.git";
+
+
+service CustomerDetails{
+    rpc CreateCustomer(customerRequest) returns (customerResponse);
+}
+
+message customerRequest {
+    int32 Customerid=1;
+    string Firstname = 2;
+    string Lastname=3;
+    string Bankid=4;
+    int32 Balance=5;
+    string CreatedAt=6;
+    string UpdatedAt=7;
+    bool isActive = 8;
+}
+
+message customerResponse {
+    int32 Customerid=1;
+    string CreatedAt=2;
+}
