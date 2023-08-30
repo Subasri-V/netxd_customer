@@ -35,7 +35,7 @@ func NewCustomerDetailsClient(cc grpc.ClientConnInterface) CustomerDetailsClient
 
 func (c *customerDetailsClient) CreateCustomer(ctx context.Context, in *CustomerRequest, opts ...grpc.CallOption) (*CustomerResponse, error) {
 	out := new(CustomerResponse)
-	err := c.cc.Invoke(ctx, "/CustomerDetails/CreateCustomer", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/netxd_customer.CustomerDetails/CreateCustomer", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -80,7 +80,7 @@ func _CustomerDetails_CreateCustomer_Handler(srv interface{}, ctx context.Contex
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/CustomerDetails/CreateCustomer",
+		FullMethod: "/netxd_customer.CustomerDetails/CreateCustomer",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(CustomerDetailsServer).CreateCustomer(ctx, req.(*CustomerRequest))
@@ -92,7 +92,7 @@ func _CustomerDetails_CreateCustomer_Handler(srv interface{}, ctx context.Contex
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var CustomerDetails_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "CustomerDetails",
+	ServiceName: "netxd_customer.CustomerDetails",
 	HandlerType: (*CustomerDetailsServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
