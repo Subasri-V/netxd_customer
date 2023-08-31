@@ -8,6 +8,8 @@ service CustomerDetails{
     rpc CreateCustomer(customerRequest) returns (customerResponse);
     rpc GetCustomerById(idReq) returns (idRes);
     rpc DeleteCustomerById(deleteReq) returns (deleteRes);
+    rpc UpdateCustomerById(updateReq) returns (updateRes);
+    rpc Transfer(transferReq) returns(transferRes);
 }
 
 message customerRequest {
@@ -43,3 +45,27 @@ message deleteRes {
     string message =1;
 }
 
+message updateReq {
+    int32 Customerid=1;
+    string Firstname = 2;
+    string Lastname=3;
+    int32 Bankid=4;
+    int32 Balance=5;
+    string CreatedAt=6;
+    string UpdatedAt=7;
+    bool IsActive = 8;
+}
+
+message updateRes{
+    string message =1;
+}
+
+message transferReq {
+    int32 sendCustomerId = 1;
+    int32 receiveCustomerId = 2;
+    int32 amount = 3;
+}
+
+message transferRes {
+    string message = 1;
+}

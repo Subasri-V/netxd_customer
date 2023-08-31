@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.2.0
 // - protoc             v3.12.4
-// source: netxd/customer.proto
+// source: netxd_customer/netxd/customer.proto
 
 package netxd_customer
 
@@ -25,6 +25,8 @@ type CustomerDetailsClient interface {
 	CreateCustomer(ctx context.Context, in *CustomerRequest, opts ...grpc.CallOption) (*CustomerResponse, error)
 	GetCustomerById(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*IdRes, error)
 	DeleteCustomerById(ctx context.Context, in *DeleteReq, opts ...grpc.CallOption) (*DeleteRes, error)
+	UpdateCustomerById(ctx context.Context, in *UpdateReq, opts ...grpc.CallOption) (*UpdateRes, error)
+	Transfer(ctx context.Context, in *TransferReq, opts ...grpc.CallOption) (*TransferRes, error)
 }
 
 type customerDetailsClient struct {
@@ -62,6 +64,24 @@ func (c *customerDetailsClient) DeleteCustomerById(ctx context.Context, in *Dele
 	return out, nil
 }
 
+func (c *customerDetailsClient) UpdateCustomerById(ctx context.Context, in *UpdateReq, opts ...grpc.CallOption) (*UpdateRes, error) {
+	out := new(UpdateRes)
+	err := c.cc.Invoke(ctx, "/netxd_customer.CustomerDetails/UpdateCustomerById", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *customerDetailsClient) Transfer(ctx context.Context, in *TransferReq, opts ...grpc.CallOption) (*TransferRes, error) {
+	out := new(TransferRes)
+	err := c.cc.Invoke(ctx, "/netxd_customer.CustomerDetails/Transfer", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // CustomerDetailsServer is the server API for CustomerDetails service.
 // All implementations must embed UnimplementedCustomerDetailsServer
 // for forward compatibility
@@ -69,6 +89,8 @@ type CustomerDetailsServer interface {
 	CreateCustomer(context.Context, *CustomerRequest) (*CustomerResponse, error)
 	GetCustomerById(context.Context, *IdReq) (*IdRes, error)
 	DeleteCustomerById(context.Context, *DeleteReq) (*DeleteRes, error)
+	UpdateCustomerById(context.Context, *UpdateReq) (*UpdateRes, error)
+	Transfer(context.Context, *TransferReq) (*TransferRes, error)
 	mustEmbedUnimplementedCustomerDetailsServer()
 }
 
@@ -84,6 +106,12 @@ func (UnimplementedCustomerDetailsServer) GetCustomerById(context.Context, *IdRe
 }
 func (UnimplementedCustomerDetailsServer) DeleteCustomerById(context.Context, *DeleteReq) (*DeleteRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteCustomerById not implemented")
+}
+func (UnimplementedCustomerDetailsServer) UpdateCustomerById(context.Context, *UpdateReq) (*UpdateRes, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateCustomerById not implemented")
+}
+func (UnimplementedCustomerDetailsServer) Transfer(context.Context, *TransferReq) (*TransferRes, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Transfer not implemented")
 }
 func (UnimplementedCustomerDetailsServer) mustEmbedUnimplementedCustomerDetailsServer() {}
 
@@ -152,6 +180,42 @@ func _CustomerDetails_DeleteCustomerById_Handler(srv interface{}, ctx context.Co
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CustomerDetails_UpdateCustomerById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CustomerDetailsServer).UpdateCustomerById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/netxd_customer.CustomerDetails/UpdateCustomerById",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CustomerDetailsServer).UpdateCustomerById(ctx, req.(*UpdateReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CustomerDetails_Transfer_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(TransferReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CustomerDetailsServer).Transfer(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/netxd_customer.CustomerDetails/Transfer",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CustomerDetailsServer).Transfer(ctx, req.(*TransferReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // CustomerDetails_ServiceDesc is the grpc.ServiceDesc for CustomerDetails service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -171,7 +235,15 @@ var CustomerDetails_ServiceDesc = grpc.ServiceDesc{
 			MethodName: "DeleteCustomerById",
 			Handler:    _CustomerDetails_DeleteCustomerById_Handler,
 		},
+		{
+			MethodName: "UpdateCustomerById",
+			Handler:    _CustomerDetails_UpdateCustomerById_Handler,
+		},
+		{
+			MethodName: "Transfer",
+			Handler:    _CustomerDetails_Transfer_Handler,
+		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "netxd/customer.proto",
+	Metadata: "netxd_customer/netxd/customer.proto",
 }
