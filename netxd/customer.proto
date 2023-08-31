@@ -6,6 +6,8 @@ package netxd_customer;
 
 service CustomerDetails{
     rpc CreateCustomer(customerRequest) returns (customerResponse);
+    rpc GetCustomerById(idReq) returns (idRes);
+    rpc DeleteCustomerById(deleteReq) returns (deleteRes);
 }
 
 message customerRequest {
@@ -13,7 +15,7 @@ message customerRequest {
     string Firstname = 2;
     string Lastname=3;
     int32 Bankid=4;
-    float Balance=5;
+    int32 Balance=5;
     string CreatedAt=6;
     string UpdatedAt=7;
     bool IsActive = 8;
@@ -23,3 +25,21 @@ message customerResponse {
     int32 Customerid=1;
     string CreatedAt=2;
 }
+
+message idReq {
+    int32 Customerid=1;
+}
+message idRes {
+    int32 Customerid=1;
+    string Firstname = 2;
+    int32 Balance=3;
+}
+
+message deleteReq {
+    int32 Customerid=1;
+}
+
+message deleteRes {
+    string message =1;
+}
+
